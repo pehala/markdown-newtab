@@ -9,35 +9,46 @@ generated links.
 
 from __future__ import absolute_import
 from __future__ import unicode_literals
-from markdown import Extension, Markdown
+from markdown import Extension
 from markdown.inlinepatterns import \
-	LinkPattern, ReferencePattern, AutolinkPattern, AutomailPattern, \
-	LINK_RE, REFERENCE_RE, SHORT_REF_RE, AUTOLINK_RE, AUTOMAIL_RE
+    LinkPattern, ReferencePattern, AutolinkPattern, AutomailPattern, \
+    LINK_RE, REFERENCE_RE, SHORT_REF_RE, AUTOLINK_RE, AUTOMAIL_RE
+
 
 class NewTabMixin(object):
-	def handleMatch(self, m):
-		el = super(NewTabMixin, self).handleMatch(m)
-		if el != None: el.set('target', '_blank')
-		return el
+    def handleMatch(self, m):
+        el = super(NewTabMixin, self).handleMatch(m)
+        try:
+            text, flag = m.group(2).split('|')
+            assert flag == 'external'
+        except:
+            pass
+        else:
+            el.text = text
+            el.set('target', '_blank')
+        return el
+
 
 class NewTabLinkPattern(     NewTabMixin, LinkPattern):      pass
 class NewTabReferencePattern(NewTabMixin, ReferencePattern): pass
 class NewTabAutolinkPattern( NewTabMixin, AutolinkPattern):  pass
 class NewTabAutomailPattern( NewTabMixin, AutomailPattern):  pass
 
+
 class NewTabExtension(Extension):
-	"""Modifies HTML output to open links in a new tab."""
-	def extendMarkdown(self, md, md_globals):
-		md.inlinePatterns['link'] = \
-			NewTabLinkPattern(LINK_RE, md)
-		md.inlinePatterns['reference'] = \
-			NewTabReferencePattern(REFERENCE_RE, md)
-		md.inlinePatterns['short_reference'] = \
-			NewTabReferencePattern(SHORT_REF_RE, md)
-		md.inlinePatterns['autolink'] = \
-			NewTabAutolinkPattern(AUTOLINK_RE, md)
-		md.inlinePatterns['automail'] = \
-			NewTabAutomailPattern(AUTOMAIL_RE, md)
+    """Modifies HTML output to open links in a new tab."""
+    def extendMarkdown(self, md, md_globals):
+        md.inlinePatterns['link'] = \
+            NewTabLinkPattern(LINK_RE, md)
+        md.inlinePatterns['reference'] = \
+            NewTabReferencePattern(REFERENCE_RE, md)
+        md.inlinePatterns['short_reference'] = \
+            NewTabReferencePattern(SHORT_REF_RE, md)
+        md.inlinePatterns['autolink'] = \
+            NewTabAutolinkPattern(AUTOLINK_RE, md)
+        md.inlinePatterns['automail'] = \
+            NewTabAutomailPattern(AUTOMAIL_RE, md)
+
 
 def makeExtension(configs = {}):
-	return NewTabExtension(configs = configs)
+    return NewTabExtension(configs = configs)
