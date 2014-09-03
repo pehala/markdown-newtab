@@ -17,14 +17,17 @@ from markdown.inlinepatterns import \
 
 class NewTabMixin(object):
     def handleMatch(self, m):
+        """
+        [test link #external#](http://google.com)
+        """
         el = super(NewTabMixin, self).handleMatch(m)
         try:
-            text, flag = m.group(2).split('|')
+            text, flag, _ = m.group(2).split('#')
             assert flag == 'external'
         except:
             pass
         else:
-            el.text = text
+            el.text = text.strip()
             el.set('target', '_blank')
         return el
 
