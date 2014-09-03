@@ -1,6 +1,6 @@
 from markdown import Markdown
 from unittest import TestCase, main
-from markdown_newtab import NewTabExtension
+from mdx_newtab import NewTabExtension
 
 class TestNewTab(TestCase):
 	def setUp(self):
