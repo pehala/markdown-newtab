@@ -1,1 +1,1 @@
-Markdown >= 2.4.1
+Markdown >= 3.0

@@ -1,12 +1,19 @@
-from distutils.core import setup
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from setuptools import setup
+
+with open('README.md') as f:
+    long_description = f.read()
 
 setup(
-	name = 'markdown-newtab',
-	version = '0.1.0',
-	description = 'Markdown Extension to add target="_blank" to all links.',
-	author = 'Alex Charron',
-	author_email='alex@undeterminant.net',
-	packages = ['markdown_newtab'],
-	url = 'https://github.com/Undeterminant/markdown-newtab',
-	license = 'CC0'
+    name='markdown3_newtab',
+    version='0.2.0',
+    description='Markdown Extension to add target="_blank" to all links.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    author='Petr Hála',
+    author_email='halapetr@selfnet.cz',
+    packages=['markdown3_newtab'],
+    url='https://github.com/pehala/markdown-newtab',
+    license='CC0'
 )
